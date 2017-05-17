@@ -1,0 +1,3 @@
+符号表：
+	mike:null		// mike负责记录。
+	rose:null		// rose负责统计。

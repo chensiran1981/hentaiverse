@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+
+	</head>
+	<body>
+		<form action="javascript:void(0)" id="parametersForm" path="auto.warrior.parameters" data="true">
+		<div id="params_pane">
+		<style>
+			.col {
+				text-align:left;
+			}
+			#root {
+				border: 1px solid;
+				padding: 5px;
+				margin: 5px;
+				border-radius: 5px;
+			}
+		</style>
+		<table>
+		<tbody>
+		<tr>战士参数设置：</tr>
+		<tr><td colspan="6">血线低于数值时施放或使用:</td></tr>
+		<tr class="ps">
+			<td class="col">cure</td>
+			<td class="col"><input name="cure" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=50></td>
+			<td class="col">regen</td>
+			<td class="col"><input name="regen" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=60></td>
+		</tr>
+		<tr class="ps">
+			<td class="col" >healthDraught</td>			
+			<td class="col"><input name="healthDraught" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=70></td>	
+			<td class="col" >healthGem</td>
+			<td class="col"><input name="healthGem" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=60></td>		
+			<td class="col" >healthPotion</td>
+			<td class="col"><input name="healthPotion" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=50></td>
+		</tr>
+
+		<tr><td colspan=6><br/>法力低于数值时使用:</td></tr>
+		<tr class="ps">
+			<td class="col">manaDraught</td>
+			<td class="col"><input name="manaDraught" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=60></td>
+			<td class="col">manaGem</td>
+			<td class="col"><input name="manaGem" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=60></td>		
+			<td class="col">manaPortion</td>
+			<td class="col"><input name="manaPortion" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=40></td>
+		</tr>
+		<tr><td colspan=6><br/>灵力低于数值时使用:</td></tr>
+		<tr class="ps">
+			<td class="col">spiritDraught</td>
+			<td class="col"><input name="spiritDraught" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=70></td>
+			<td class="col">spiritGem</td>
+			<td class="col"><input name="spiritGem" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=50></td>
+			<td class="col">spiritPotion</td>
+			<td class="col"><input name="spiritPotion" data="true" type='number' onblur="parametersForm.submit()" max=100 min=0 value=40></td>
+		</tr>
+		<tr><td colspan=6><br/>获得Channeling，且BUFF剩余回合低于数值时施放:</td></tr>
+		<tr class="ps">
+			<td class="col">regen </td>
+			<td class="col"><input name='regenEffect' data="true" type='number' onblur="parametersForm.submit()" max=999 min=0 value=30></td>
+			<td class="col">heartSeeker </td>
+			<td class="col"><input name='heartSeekerEffect' data="true" type='number' onblur="parametersForm.submit()" max=999 min=0 value=120></td>
+			<td class="col">其他 </td>
+			<td class="col"><input ame='effect' data="true" type='number' onblur="parametersForm.submit()" max=999 min=0 nvalue=20></td>
+		</tr>
+		<tr><td colspan=6><br/>怒气达到数值时切换Spirit姿态:</td></tr>
+		<tr class="ps">
+			<td class="col">overcharge</td>
+			<td class="col"><input name="overcharge" data="true" type='number' onblur="parametersForm.submit()" max=250 min=0 value=240></td>
+		</tr>
+		<tr><td colspan=6><br/>自动保持以下BUFF:</td></tr>
+		<tr class="ps">
+			<td class="col">keepHeartSeeker</td>
+			<td class="col"><input name="keepHeartSeeker" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit()" max=100 min=0></td>
+			<td class="col">keepRegen</td>
+			<td class="col"><input name="keepRegen" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0></td>
+			<td class="col">keepHaste</td>
+			<td class="col"><input name="keepHaste" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0 value=true></td>
+		</tr>
+
+		<tr class="ps">
+			<td class="col">keepProtection</td>
+			<td class="col"><input name="keepProtection" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0></td>
+			<td class="col">keepShadowVeil</td>
+			<td class="col"><input name="keepShadowVeil" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0></td>
+			<td class="col">keepSpiritShield</td>
+			<td class="col"><input name="keepSpiritShield" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0 value=true></td>
+		</tr>
+
+		<tr class="ps">
+			<td class="col">keepSparkOfLife</td>
+			<td class="col"><input name="keepSparkOfLife" data="true" type='checkbox' onclick="this.value=this.checked;parametersForm.submit" max=100 min=0 value=true></td>
+		</tr>
+
+		</tbody>
+		</table>
+		</div>
+		</form>
+	</body>
+</html>

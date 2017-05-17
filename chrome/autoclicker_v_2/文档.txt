@@ -1,0 +1,62 @@
+autoclicker_v_2
+
+目前版本为v2.1
+
+记录：实现显示BUFF剩余回合数、显示层数、底部显示最近操作。
+
+功能列表：
+---------
+统计。								未定
+
+参数设置。							未定		
+
+动态血线、蓝线、精神线。			未定
+自己决定是否施放武器技能。			未定
+
+问题列表：
+----------
+1、插件空间的submit未替换，导致切换mode时刷新页面。			修复
+2、mode函数未返回正确的值，导致并发submit。					修复
+3、小马音频偶尔不能及时播放，需切换到页面才播放。			未定
+4、RoundCoutner遭遇文本欺骗									修复
+
+
+对象及代码结构：
+---------------
+BattlePage: object
+	addons:[]
+	yes()
+	run()
+	
+	battle:
+		gem
+		primary
+		buffs
+		monsters
+		continueDialog
+
+		check()
+		commit(symbol)
+		target(monster)
+
+BattleHandler: class
+	fighter
+	
+	该函数将战斗过程划出几个事件点。
+	每次执行之初，为一个回合结束事件：onTurnDone
+	然后检查对话框，若无则继续战斗，划为一个战斗事件: onFight。
+	若有对话框，检查战斗状态为胜利还是失败，失败转入失败处理（播放失败音效），然后抛出onDefeated事件。
+	若胜利，检查结束是整场战斗还是本层战斗。
+	若为整场战斗结束，播放胜利音效，抛出BattleCleared事件。
+	若为本层结束，抛出RoundCleared事件，然后自动点击对话框进入下一层战斗。
+	handle()
+
+Warrior: object
+	onTurnDone()
+	onFight()
+	onRoundCleared()
+	onBattleCleared()
+	onDefeated()
+	
+
+

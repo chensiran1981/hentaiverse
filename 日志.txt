@@ -1,0 +1,25 @@
+1	15	Metallic Mecha hits you for 696 piercing damage.
+1	14	In Memorabilia Of Darksage Df1 hits you for 827 crushing damage.
+1	13	Weak Undead gains the effect Stunned.
+1	12	You counter Weak Undead for 2102 points of void damage.
+1	11	You block the attack from Weak Undead.
+1	10	Mieu gains the effect Stunned.
+1	9	You counter Mieu for 1572 points of void damage.
+1	8	You block the attack from Mieu.
+1	7	Dododoooooo gains the effect Stunned.
+1	6	You counter Dododoooooo for 2285 points of void damage.
+1	5	You block the attack from Dododoooooo.
+1	4	Schpeltor hits you for 788 piercing damage.
+1	3	You gain the effect Hastened.
+1	2	You gain 0.02 points of supportive magic proficiency.
+1	1	You cast Haste.
+0	9	You gain the effect Spark of Life.
+0	8	Spawned Monster G: MID=109899 (Weak Undead) LV=317 HP=152320
+0	7	Spawned Monster F: MID=13113 (Schpeltor) LV=314 HP=129760
+0	6	Spawned Monster E: MID=84192 (Dododoooooo) LV=315 HP=154304
+0	5	Spawned Monster D: MID=51602 (Birdey) LV=317 HP=57872
+0	4	Spawned Monster C: MID=113212 (In Memorabilia Of Darksage Df1) LV=314 HP=159904
+0	3	Spawned Monster B: MID=42441 (Metallic Mecha) LV=317 HP=91706
+0	2	Spawned Monster A: MID=47376 (Mieu) LV=319 HP=131808
+0	1	Initializing random encounter ...
+0	0	Battle Start!

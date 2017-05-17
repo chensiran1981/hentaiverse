@@ -1,0 +1,149 @@
+  HV是一个纯网页游戏。我曾经用按键精灵做了一个简易自动练级脚本。这件事引发了我对自动化的兴趣，我想要一个更强大的HV机器人。
+  
+  ----
+  基于网页，自动化。
+  
+  操作者——http通信/html返回——HV服务器。
+  
+  操作者的操作
+  html呈现
+  
+  操作者接受什么样的命令？智能化的命令，比简单操作更复杂的事情，包含许多简单操作和逻辑的事情。
+  
+  从程序的角度，我想屏蔽掉通信和解析的细节，向上提供一个直观的HV接口。
+  
+  操作者 —— HV接口 —— （http/html）HV服务器
+  
+  应用起来就像：
+    hv = WebHV.login(...);
+	hv.operate(...)
+	...
+	
+  设想该接口应当包含：
+    HV:总接口。通过该接口获得其他HV对象。
+	Persona:人物配置。每个玩家有多个人物配置方案。方案包括：属性点分配方式、装备搭配方式、背包物品放置方案。
+	Battle：一场战斗。战斗开启后，只有玩家退出、死亡、胜利才会结束。
+	Round：回合。一场战斗由多个回合组成。每回合都会有怪物来与玩家战斗，杀死所有怪物则继续下一回合，死亡则结束回合和结束整场战斗。
+	Turn：交锋。每回合与怪物的战斗由多次交锋组成。每次交锋时，总是玩家先行动，然后怪物行动。
+	Log：战斗记录。例如：
+		Turn.	no.		event.
+		2		3		Ghazrilla hits you for 117 slashing damage.
+		2		2		You gain the effect Regen.
+		2		1		You cast Regen.
+		1		5		Btrbtr gains the effect Stunned.
+		1		4		Wind Strike crits Btrbtr for 291 wind damage.
+		1		3		You hit Ghazrilla for 883 crushing damage.
+		1		2		You crit Btrbtr for 3222 crushing damage.
+	
+	以下为一个应用场景：
+	  
+	  //应用web服务器版HV，首先登录到HV。
+	  hv = (HV)WebHV.login(url,name,password) - connectionFailed;loginFailed
+	  
+	  //输入用户名和密码登录。
+	  player = (Player)hv.getPlayer();
+	  
+	  //以下获取玩家属性和设定。
+	  player.getStamina();	体力；
+	  player.getDifficulty();	难度；
+	  player.getLevel();		等级；
+	  player.getToNextLevel();	升级所需经验值；
+	  player.getCredits();		存款；
+	  
+	  //获取人物设定方案。
+	  Persona(s) = player.getPersonas();
+	  
+	  //获取当前人物设定方案。
+	  p = Persona(s).getActivePersona();
+	  
+	  //获取人物主要属性值。
+	  p.getStrenght();  力量；
+	  p.getDexterity(); 灵巧；
+	  p.getAgility();	敏捷；
+	  p.getEdurance();	耐力；
+	  p.getIntelligence();	智力；
+	  p.getWisdom();	精神；
+	  p.getArmorDamage();	装备损坏程度（良好/黄色/红色）
+	  
+	  //生命值\魔法值\斗志，数据类型为Pool；
+	  he = (Pool)p.getHealth();
+	  ma = (Pool)p.getMagic();
+	  sp = (Pool)p.getSpirit();
+	  h.max();	上限
+	  h.now();	当前值
+	  h.percent();	百分比；
+	  ...
+	  
+	若战斗未结束时断线，hentaiverse会保留战斗状态，再次登入时可以继续战斗。如何识别这种状况呢？
+	  由于战斗状态信息在此时并不充分。Log里边有可能包含战斗类型、回合、交锋等信息，也可能不包含，因为首次传递的LOG仅包含最近的交锋信息，
+	  若彼时交锋过多，则早起的交锋记录不会被包含在内，就无从了解类型和回合信息。
+	  
+	  此时有2个办法，
+	    一、在不知道类型的情况下，打完这个回合。这样系统进入下一个回合时，可以从新回合的完整LOG中获得类型、回合信息。
+		二、将LOG与之前保留本地的战斗LOG信息对比，若对得上，则说明本地缓存与HV当前状态是接续的，从本地恢复相关信息即可。另外战斗中不可能修改人物设定，
+		    因此本地缓存的人物信息与HV当前状态也是一致的。人物相关信息也可以从本地直接取用。若对不上，则表明用户已经以其他途径登录
+			过HV，在新的战斗中断线。当前连接到战斗并非本地缓存的战斗。那么需要标记本地缓存数据已经过时和不可用。只能当作重新接手HV来处理。
+	  
+	  本版本将采用第二种方法，基于该方案的应用代码如下：
+		if (hv.isFighting()) turn = hv.getFightingTurn();
+		//从Turn可以获得相关信息：
+		//玩家信息
+		player = turn.getPlayer();
+		player.getHealth();getMagic();getSpirit();
+		
+		//怪物信息
+		monster(s) = turn.getMonsters();
+		count = monster(s).count();
+		monsterA = monster(s).get(0);
+		
+		//怪物基础信息：MID=59213 (Kael Thas Sunstrider) LV=236 HP=5694
+		monster属性：{MID;Name;Level;Health;Magic,Spirit}
+	
+		详细设计在后部描述。
+	
+	除了查询HV用户、角色设定、战斗等状态信息外，还以执行操作。
+	
+	  //切换角色设定；
+	  persona(s).setActive(0);
+	  
+	  //分配属性点；
+	  persona.strength.add(2)
+	  ...
+	  
+	  //设置战斗背包；
+	  bag = persona.getBag();
+	  itemSlot(s) = bag.getItemSlots();
+	  itemSlot = itemSlot(s).get(0);
+	  itemName = itemSlot.getItemName();
+	  itemSlot.setItemName();
+	  
+	  //战斗;
+	  arena = hv.arena();
+	  challenge(s) = arena.getChallenges();
+	  challenge = challenge.get('First Blood');
+	  battle = challenge.start();
+	  
+	  grindFest = hv.grindFest();
+	  challenge = grindFest.getChallenge();
+	  battle = challenge.start();
+	  
+	  ...
+	  itemWorld = hv.itemWorld();
+	  challenge = iw.getChallenge(itemName);
+	  battle = challenge.start();
+	  
+	  //进入战斗后；
+	  //攻击
+	  player.attack(monster name);
+	  player.cast(skill name,monster name)
+		
+		
+		
+	  
+	  
+	  
+	  
+	  
+  
+  
+

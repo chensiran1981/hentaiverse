@@ -1,0 +1,28 @@
+{
+	"name":					"鼠标点到300级 v3"
+	,"version":				"3.0"
+	,"description":			"新增记录和统计功能。"
+	,"manifest_version":	2
+	,"icons":				{"48":"4848.png"}
+	
+	,"background":{
+		"page":"bg.html"
+	}
+	
+	,"content_scripts":[
+		{	
+			"matches":["http://*.hentaiverse.org/*","http://127.0.0.1/hv30/*"]
+			,"js":["autoclicker_v3.js"]
+		}
+	]
+	
+	,"web_accessible_resources":[
+		"horse.ogg"
+		,"battleCleared.mp3"
+		,"defeated.mp3"
+		
+		,"warrior.js"
+	]
+	
+	,"permissions":	["downloads"]
+}

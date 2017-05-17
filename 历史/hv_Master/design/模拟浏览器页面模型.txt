@@ -1,0 +1,239 @@
+---- Hv Message Handler ----
+
+IHvInfo {
+	update(IHV hv);
+}
+IMessageProcessor {
+	process(HvMessage m);
+}
+HvMessage {
+	IHV hv;
+	String verb;
+	Structure {collection of String-IValue};
+	IValue get(String parameter);
+}
+
+IValue {
+	String asString();
+	int asInteger();
+	long asLong();
+	double asDouble();
+}
+StringValue : IValue {
+	String value;
+	StringValue(String v) {
+		value = v;
+	}
+	asString() ...
+	asIneger(),asLong(),asDouble() ...Error;
+}
+IntegerValue,LongValue,DoubleValue : IValue {
+	...
+}
+
+++++ Hv Message Handler based on Tab ++++
+HvWebServer {
+	String host-url;
+	collection sessions;
+	IBrowser browser;//Injected;
+	HvWebServer(String host) {
+		this.host = host;
+	}
+	GameSession login(user,password) {
+		ret = sessions.query(user,password);
+		if (ret == null) {
+			//do login;
+			tab = browser.tabs.create();
+			tab.open(host-url);
+			tab.activePage().process(new HvMeesage{verb="login","user"=user,"password"=password});
+			return new GameSession(tab);
+		}
+	}
+}
+
+GameSession : IMessageProcessor,IHvInfo {
+	ITab tab;
+	GameSession(ITab t) {
+		this.tab = t;
+	}
+	~ process(m) {
+		tab.activePage().process(m);
+	}
+	~ update(IHV hv) {
+		tab.activePage().process(new HvMessage{verb="update","hv"=hv});
+	}
+}
+
+---- IBrowser ----
+
+IBrowser {
+	brand;
+	tabs;
+}
+ITabs {
+	ITab create();
+}
+ITab {
+	open(String url);
+	IPage activePage();
+}
+IPage : IMessageProcessor {
+	
+}
+
+++++ IBrowser ++++
+
+Browser {
+	brand;
+	tabs;//Injected;
+}
+
+++++ ITabs based on Http ++++
+
+HttpTabs : ITabs {
+	~ HttpTab create() {
+		ret = new HttpTab();
+		manage(ret);
+		return ret;
+	}
+}
+HttpTab : ITab {
+	~ open(String url) {
+		
+	}
+	
+}
+HvPage : IPage {
+}
+
+
+HvPage {
+	ref HvWebClient;
+	process(HvOperationMessage m);
+}
+
+-------- concrete pages --------
+Blank {
+	doOpen(String url) {
+		nextPage = client.getPage(url);
+		owner.setPage(nextPage);
+	}
+}
+
+Login {
+	doLogin(String user,password) {
+		nextPage = client.process(new HttpPost(url,user,password));
+	}
+	doLogin(String user,password) {
+		nextPage = htmlPage.get("loginform").set("user_input",user).set("password_input",password).submit();
+	}
+}
+**http实现，htmlunit实现
+htmlunit实现了一套结构，通过这套结构。
+一个功能，用http实现与htmlunit实现大相径庭。
+	需要的输入不同：http需要构造一条flat message，htmlunit需要特定的索引和参数来定位和使用结构中的构件。
+但http实现和htmlunit都以page模型工作。所以我想在其上定义一个page模型，http和htmlunit作为这个page模型的实现。
+Page模型：
+每次与HV服务器交互，它总是返回一个HV片段，该片段展现系统的部分信息，提供系统的部分操作。即组件。此处为Page。
+
+IBrowser {
+	brand();
+	tabs();
+}
+ITabs {
+	ITab create();
+}
+ITab {
+	IPage active();
+}
+IPage {
+	
+}
+-------- Implementation for IBrowser --------
+Browser : IBrowser {
+	brand;
+	ref tabs;
+	Browser(brand);
+}
+------- Implementation for Http --------
+HvTabs : ITabs {
+	~ HvTab create() {
+		return new HvTab();
+	}
+}
+HvTab : ITab,IHvProxy {
+	HvPage active;
+	~ HvPage active() {
+		return active;
+	}
+	setActive(HvPage p) {
+		active = p;
+	}
+}
+HvPage : IPage,IHvProxy {
+	ref hvTab;
+}
+-------- Implementation of concrete pages --------
+
+
+
+
+HvWebSession : IHvProxy {
+	brand;
+	http;
+	active = Start;
+	
+	process(HvMessage m) {
+		this.active.process(m);
+	}
+	update(IHV hv) {
+		this.active.update(hv);
+	}
+}
+Http {
+	session;
+	
+	hc;
+	
+	execute(HttpMessage m) {
+		rep = hc.execute(m);
+		s = rep.getEntity();
+		p = builder.set(s).build();
+		session.active = p;
+	}
+}
+HvPage : IHvProxy {
+	session;
+	
+	process(HvMessage m) {
+		//do nothing.
+	}
+	update(IHV hv) {
+		//do nothing.
+	}
+}
+Unknown : HvPage {
+	process(m) {
+		Error("这条消息不应当发送给我处理。");
+	}
+	update() {
+		Warn("我是系统无法识别的页面，我无法识别Hv信息。");
+	}
+	
+}
+Start : Unknown {
+	process(HvMessage m) {
+		switch m.verb {
+			case "open" : doOpen(m.get("url").asString);
+			default : super(m);
+		}
+	}
+	update() {
+		//空白。
+	}
+	doOpen(String url) {
+		session.http.execute(new HttpGet(url));
+	}
+}
+
+

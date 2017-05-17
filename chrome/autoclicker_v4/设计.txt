@@ -1,0 +1,167 @@
+2016-12-01  概念
+Module:模块名、JS文件。
+模块是组件的集合。
+模块可动态导入。
+ac.js为固有模块。
+symbols.js为固有模块。
+main.js为固有模块。
+
+main.js一开始只定义了匹配页面规则和对应的模块信息。
+ac.battle
+  :yes(doc)
+  :module {js:'battle.js'}
+ac.riddle
+  :yes(doc)
+  :module {js:'riddle.js'}
+
+ac.start = function() {
+  var pages = [ac.battle,ac,riddle];
+  pages.some(function(page) {
+    if (page.yes(document)) {
+      ac.import(page.module);
+      return true;
+    }
+  });
+}
+ac.start();
+// ac.js
+ac
+// boot.js
+ac.boot(page)
+ac.battle.page.detect()
+ac.riddle.page.detect()
+// hv.js
+ac.hv.Effect    // {name, stack, duration: {value, max, percent}}
+ac.hv.Skill  // {name, id, mana, overcharge, cooldown}
+ac.hv.Creature  // {name, id, health, magic, spirit}
+ac.hv.Monster   // extend Creature()
+ac.hv.Monster.effects   // Map<name, Effect>
+ac.hv.BattleEvent  // {turnno, eventno, message}
+ac.hv.Turn  // {ordinal, battleEvents : Array<BattleEvent>}
+ac.hv.Round // {ordinal, turns: Array<Turn>, monsters: Array<Monster>}
+ac.hv.Innate
+ac.hv.difficulty
+ac.hv.player // new Creature()
+ac.hv.player.effects  // Map<name, Effect>
+ac.hv.player.skillBook // Map<name, Skill>
+ac.hv.round   // new Round()
+ac.hv.innates  // Map<name, Innate>
+// battle_page.js
+ac.battle.page.hv = ac.hv
+ac.battle.page.basic  
+ac.battle.page.effects  
+ac.battle.page.items
+ac.battle.page.skillBook  
+ac.battle.page.monsters   
+ac.battle.page.logs
+ac.battle.page.logs.pattern.xxx
+ac.battle.page.onBattlePageUpdated
+ac.events.registe('onBattlePageChecked')
+ac.events.subscribe('onBattlePageUpdated', ac.battle.page);
+// battle.js
+ac.events.queue('onBattleModuleStarted', {document:document});
+ac.events.queue('onBattlePageUpdated', {document:document});
+// robot.js
+ac.battle.robot
+ac.events.registe('onFight');
+ac.events.subscribe('onBattlePageChecked', ac.battle.robot);
+// ajax.js
+ac.battle.ajax
+ac.battle.ajax.onBattleModuleStarted
+ac.events.registe('onBattlePageUpdated');
+ac.events.subscribe('onBattleModuleStarted', ac.battle.ajax);
+// one_hand.js
+ac.battle.oh 
+ac.events.subscribe('onFight', ac.battle.oh);
+// alert.js
+ac.alert
+ac.events.subscribe('onDefeated', ac.alert);
+ac.events.subscribe('onWhoIsThisPony', ac.alert);
+ac.events.subscribe('onChallengeCleared', ac.alert);
+
+2016-11
+全局名词(及其描述)表。
+GDT
+  // 技能 type:'skill'
+  // 物品 type:'item'
+  // bosses type:'monster', subtype:'boss'
+  // 战斗程序 type:'script', subtype:'object', tag:'fighter'
+  // 程序组件 type:'script', subtype:'object', tag:'core'
+公共方法
+commons
+  :foreach(array, func)	//func返回ture则停止遍历。
+  :store
+    : load(path, object)	//若path不存在于数据库，则保存该对象到数据库。
+    : load(path)		//返回存储对象。
+    : save(path, object)
+    Dialog
+      : dialog apply(label, func)
+      dialog 
+        :setContent(div)
+        : show()
+对象类
+Gauge 血条、蓝条...
+  :value, max, percent
+Creature
+  :String name, int level, Gauge health, Gauge magic, Gauge spirit, Map[name,Effect] effects
+Spell
+  :name, mana, overcharge, cooldown
+Effect
+  :name, Gauge duration
+框架/事件
+events
+  : load()	//读取配置
+  : save()	//保存配置
+  : fire('onXXX')	// 遍历每个
+BattlePage检测战斗页面。
+BattlePage fires onBattlePageStarted, onBattlePageUpdated
+  : yes(), start()
+RiddlePage检测谜语页面。
+RiddlePage fires onWhoIsThisPony
+  : yes(), start()
+ajax将页面改造成ajax模式，这样就不用每次重新装载整个页面，从而避免视觉闪烁。
+ajax fires onAjaxDocumentArrived
+  : onBattlePageStarted()
+updater更新战场页面。
+updater fires onBattlePageUpdated
+  : onAjaxDocumentArrived
+audio在小马、胜利、失败时发出提示音。
+audio
+  : onDefeated()
+  : onChallengeCleared()
+  : onWhoIsThisPony()
+battleField会告诉你所有战斗信息。
+battleField
+  difficulty
+  Creature player
+    : Gauge overcharge, String titile, Map[name, Spell] spells
+    : check()
+  Map[name,Monster] monsters
+    : check()
+  : onBattlePageUpdated()
+robot会不断的点击。
+robot fires onWhatToDoNext, onDefeated, onChallengeCleared
+  : onBattlePageUpdated()
+mike擅长单手持盾攻击。
+mike
+  : onWhatToDoNext()
+parker也是单手持盾攻击，但比mike更有效率。
+  : onWhatToDoNext()
+mary会治疗。
+mary
+  : onWhatToDoNext()
+sara会加buff。
+sara
+  : onWhatToDoNext()
+james擅长元素攻击。
+  : onWhatToDoNext()
+------------------------
+config管理配置。
+config
+  : edit()
+  : load()
+主脚本
+config.load();
+commons.foreach(pages, function(page) {
+	return page.yes() && page.start();
+})

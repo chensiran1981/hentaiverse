@@ -1,0 +1,70 @@
+
+
+BattleRunner:		// 原BattleHandler，更名为BattleRunner。
+	addons:[]		// 辅助功能。
+	fighter:
+	keyModeHandler: {
+		toDo:null
+		onkeypress(e) {
+			if (e.keyCode == config.keyMode.key) {
+				if (this.toDo != null) {
+					this.toDo();
+					this.toDo == null;
+				}
+			}
+		}
+	}
+	prepare(page) {
+		addons.prepare(page);
+		loadFighter();
+		
+		if (config.keyMode.yes) {
+			var _this = this;
+			commons.listen(document,'keypress',this.keyModeHandler.onkeypress);
+		}
+	}
+	
+	handle(page) {
+		if (config.keyMode.yes) {
+			this.keyModeHandler.toDo = action;
+			return;
+		}
+		
+		action();
+		
+		function action() {
+			battle = page.battle;
+			battle.check();
+			
+			if (brain && brain.onTurnDone)
+				addons.onTurnDone();
+				brain.onTurnDone(battle);
+			
+			if (battle.continueDialog.yes) {
+				if (battle.continueDialog.victory) {
+					if (brain && brain.roundCleared)
+						brain.roundCleared(battle);
+						
+					if (battle.continueDialog.battleEnd) {
+						commons.audio('battleCleared.mp3',function() {
+							battle.continueDialog.click();
+						});
+						if (brain && brain.battleCleared) 
+							brain.battleCleared(battle);
+					}
+					
+					battle.continueDialog.click();
+				}
+				else {
+					commons.audio('defeated.mp3',function() {
+						battle.continueDialog.click();
+					});
+					if (brain && brain.onDefeated) 
+						brain.onDefeated(battle);
+				}
+			} else {
+				if (brain)
+					brain.onFight(battle);
+			}
+		}
+	}

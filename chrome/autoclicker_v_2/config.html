@@ -1,0 +1,18 @@
+<div id='ac_settings_dialog' style="padding:10px; border:1px solid">
+<form id='ac_form'>
+<div style="text-align:left">AutoClicker Settings<input id='ac_close' type='button' value='close' style='float:right'></div>
+
+<p><input type='checkbox' name='keyMode.yes' onclick='ac_save.click()'>use key mode, press key of code<input type='number' name='keyMode.key' min=1 max=255 onblur='ac_save.click()'> to action.</p>
+
+<p>load addons:</p>
+<p><input type='checkbox' name='addons' value="Toast" onclick='ac_save.click()'>Toast: show your last operation in the bottom of the main pane.</p>
+<p><input type='checkbox' name='addons' value="Duration" onclick='ac_save.click()'>Duration: show effect duration of buffs</p>
+<p><input type='checkbox' name='addons' value="RoundCounter" onclick='ac_save.click()'>RoundCounter: show round in upperright of the main pane, looks like '8 / 30'</p>
+<p>choose fight handler:</p>
+<p><input type='radio' name='r0' value='Warrior' checked onclick='fightHandler.value=this.value;ac_save.click()'>Warrior: one hand.</p>
+<p><input type='radio' name='r0' value='Mage' onclick='fightHandler.value=this.value;ac_save.click()'>Mage: staff.</p>
+<input type='hidden' id='fightHandler' name='fightHandler' value=''>
+</form>
+<p>Warrior parameters:</p>
+<input type='hidden' id='ac_save' onclick='console.log("save")'>
+</div>

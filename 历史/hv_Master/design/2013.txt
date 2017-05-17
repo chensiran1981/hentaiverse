@@ -1,0 +1,30 @@
+会话-页面模型本身不提供有特定意义的操作。登录应留给应用来定义。
+
+
+//	HvException e1: wrong user
+//	HvException e2: wrong pass
+//	HvException e3: net error
+//	HvException e4: LoginAction not supported.
+Session login(host,user,pass) throws HvException {
+	s = browser.sessions.find(host,user);
+	
+	if (s== null) {
+		s = browser.sessions.create(host);
+		
+		//模拟页面登录。
+		p = s.pages.active();
+		p.execute(new PageActions.Login(user,pass));
+	}
+	
+	return s;
+}
+
+
+Sessions.create(host,user,pass) {
+	
+}
+
+
+
+
+

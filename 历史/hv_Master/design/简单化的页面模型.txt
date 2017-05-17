@@ -1,0 +1,99 @@
+HV-Model
+HV,Hero,Battle,BattleField,...
+
+Message {
+	id;
+	args;
+}
+
+IMessageHandler{
+	process(Message m) HvException;
+}
+
+IHvUpdator {
+	update(HV);
+}
+
+IHvHandler : IMessageHandler,IHvUpdator {
+}
+
+HvSession : IHvHandler {
+	IHvPageContainer tab;
+	process(Message m) HvExeception {
+		tab.getPage().process(m);
+	}
+	update(HV hv) {
+		tab.getPage().update(hv);
+	}
+}
+
+HvSite {
+	host-url;
+	HvSession login(user,password) {
+		ret = sessions.query(user,password);
+		if (ret == null) {
+			tab = new HtmlTab();
+			tab.getPage().execute({"id"="open",args={"url"="host-url"}});
+			tab.getPage().execute({"id"="login",args={"user"=user,"password"=password}});
+			ret = new HvSession(tab);
+			sessions.add(ret,user,password);
+		}
+		return ret;
+	}
+	sessions = new Sessions();
+	Sessions {
+		HvSession query(user,password) {
+			...
+		}
+		add(HvSession,user,password) {
+			...
+		}
+	}
+}
+
+IHvPage : IMessageProcessor,IHvUpdator {
+	
+}
+IHvPageContainer {
+	HvPage getPage();
+}
+
+HtmlPage : HvPage {
+	html;
+	tab;
+}
+
+IBuilder<T> {
+	T build();
+}
+
+HtmlPageBuilder : IBuilder<HtmlPage> {
+	html;
+	HtmlPageBuilder setHtml(s) {
+		html = s;
+	}
+	HtmlPage build();
+}
+
+HtmlTab : HvPageContainer {
+	HtmlPageBuilder builder;
+	page = new Start(this);
+	getHttp();
+	setPage(String html) {
+		HtmlPage p = builder.setHtml(html).build();
+		setPage(p);
+	}
+	setPage(HtmlPage p) {
+		...
+	}
+}
+Unknown : HtmlPage {
+	process(Message m) {
+		Error("我是xxx页面，我收到了命令xxx，但我不知道如何处理该命令。");
+	}
+}
+Start : Unknown {
+	
+}
+
+

@@ -1,0 +1,31 @@
+You hit Kirika Ueno for 6144 void damage.
+You crit Bzobzo for 12524 void damage.
+Void Strike crits Bzobzo for 2751 void damage.
+Your spike shield hits Temp172 for 5 points of fire damage.
+Fire Strike hits Taro Maria Sekiutsu for 3314 fire damage.
+Fire Strike crits Bzobzo for 2545 fire damage.
+
+You use Health Potion.
+Recovered 7759 points of health.
+
+You cast Cure.
+You are healed for 5968 Health Points.
+
+Regeneration restores 239 points of health.
+Refreshment restores 7 points of spirit.
+Replenishment restores 8 points of magic.
+Regen restores 955 points of health.
+
+
+You counter Temp172 for 5381 points of void damage.
+You parry the attack from Chainsaw Lady.
+You block the attack from Temp109.
+You evade the attack from Temp109.
+
+The effect Searing Skin on Bzobzo has expired.
+Bzobzo gains the effect Penetrated Armor.
+Bzobzo has been defeated.
+
+Kujinsi parries your attack.
+Kujinsi crits you for 808 slashing damage.
+Corbusier uses Sketch 2, and hits you for 2279 crushing damage

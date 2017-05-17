@@ -1,0 +1,15 @@
+battle handler:
+  检查状态
+
+  抛出 Turn end事件
+
+  检查是否有对话框，无则抛出 Turn begin事件。
+
+  有对话框，则检查：
+ 	log含有 "You have been defeated."，抛出 Defeated事件
+	
+	log含有“You are Victorious!”,抛出Round Cleared事件
+	对话框含有“goto_”语句，抛出Battle Win事件。
+
+ 
+  

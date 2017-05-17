@@ -1,0 +1,94 @@
+统计的作用
+1、什么时候加血，既安全又经济？
+2、什么时候回蓝，既安全又经济？
+3、如何使用特殊技？该普攻还是使用特殊技？
+4、衡量战斗的紧张程度。
+
+寻找统计项：
+从【安全、效率、经济】入手寻找统计项。
+安全：		过去受到的【最大伤害】，若血量低于这个数值，则有【可能性】遭受类似的攻击，导致死亡，
+紧张程度：	血量持续低水平，如有【血量折线图】就方便多了。
+
+统计范围：
+	一场战斗	
+	难度
+	
+统计变量：
+	最大血量落差
+	最高承受伤害
+	消耗药水数量
+	小怪数量
+	boss数量
+	承受伤害总量
+	治疗总量
+	过量治疗总量
+	收获的经验值
+	收获的绅士币
+	
+开发记录：
+
+统计数据来源：Log\界面
+
+数据结构
+ac.battle.stats: 挑战名，总经历层数，回合总数，杀死的怪物总数
+ac.battle.stats:{rounds:xx,turns:xx,monsters:xx}
+血量落差，承受伤害......
+
+血量折线图 结构
+hpp(hp points) : [10000,9000,5000,6000,...]
+ac.battle.frames:[{tn:xxx,hp:[xxx,xxx],mp:[xxx,xxx],sp:[xxx,xxx],oc:[xxx,xxx]},......]		// 每项为一帧。
+	tn:	回合序号
+	hp，mp，sp: [血量，上限]，[蓝量，上限]，[精神量，上限]
+	oc: Overcharge，[怒气，上限]
+
+代码结构：
+功能可实现为BattleHandler的一部分，或者在Warriror的onTurnDone实现，成为Warrior的一部分。
+在BattleHandler实现，可以为所有fighter公用，会增加开销。
+目前定为在BattleHandler实现。
+记录与统计分开。
+
+代码原型：（LA为功能简写：Log Analyse）
+BattleRunner:		// 原BattleHandler，更名为BattleRunner。
+	addons:[]		// 辅助功能。
+	fighter			// fighter是核心功能。
+	prepare() {
+		foreach(addon in addons) 
+			addon.prepare();
+		fighter.prepare();
+	}
+	turnDone() {
+		
+		//在原有代码前插入
+		......
+	}
+
+
+	
+TeamA：团队A是日志记录、统计、分析小组
+	laozhang:null	// 老张负责整理日志，帮你找出最新回合的日志，并做一些前置处理。
+	mike:null		// mike负责记录。
+	rose:null		// rose负责统计。
+
+LA {
+	vars:[]
+	prepare() {
+		变量初始化。
+		foreach(var in vars) {
+			//MaxHurt.prepare();
+			var.prepare();
+		}
+	}
+	handle() {
+		logs = 最近一个回合的Log。
+		foreach(log in logs) {
+			event = log->{round:xx,turn:xx,text:xx}
+			foreach(var)
+			//MaxHurt.process(event);
+			var.process(event);
+		}
+	}
+}
+
+绘制折线图
+
+	

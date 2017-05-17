@@ -1,0 +1,58 @@
+30	8	Your spike shield hits Yukkuri 001 for 26 points of fire damage.
+30	7	Yukkuri 001 hits you for 287 crushing damage.
+30	6	You evade the attack from In Memorabilia Of Darksage F2s.
+30	5	Your spike shield hits Arc003 for 57 points of fire damage.
+30	4	Arc003 crits you for 367 slashing damage.
+30	3	You gain the effect Overwhelming Strikes.
+30	2	Void Strike hits In Memorabilia Of Darksage F2s for 1038 void damage.
+30	1	You hit In Memorabilia Of Darksage F2s for 1769 void damage.
+29	9	Bleeding Wound hits In Memorabilia Of Darksage F2s for 2134 damage.
+29	8	Refreshment restores 6 points of spirit.
+29	7	Regen restores 892 points of health.
+29	6	Replenishment restores 8 points of magic.
+29	5	Yukkuri 001 gains the effect Searing Skin.
+29	4	Your spike shield hits Yukkuri 001 for 113 points of fire damage.
+29	3	Yukkuri 001 uses Skill-1, and hits you for 1246 crushing damage
+29	2	You gain the effect Spirit Shield.
+29	1	You cast Spirit Shield.
+28	9	Cooldown expired for Cure
+28	8	Your spike shield hits In Memorabilia Of Darksage F2s for 5 points of fire damage.
+28	7	You block the attack from In Memorabilia Of Darksage F2s.
+28	6	Your spike shield hits Arc003 for 5 points of fire damage.
+28	5	You block the attack from Arc003.
+28	4	In Memorabilia Of Darksage F2s gains the effect Bleeding Wound.
+28	3	You gain the effect Overwhelming Strikes.
+28	2	Void Strike crits In Memorabilia Of Darksage F2s for 788 void damage.
+28	1	You crit In Memorabilia Of Darksage F2s for 3300 void damage.
+27	5	Yukkuri 001 casts Skill-3, and hits you for 2963 void damage
+27	4	Your spirit shield absorbs 3676 points of damage from the attack into 44 points of spirit damage.
+27	3	Recovered 668 points of spirit.
+27	2	You gain the effect Refreshment.
+27	1	You use Spirit Elixir.
+26	11	The effect Stunned on Yukkuri 001 has expired.
+26	10	The effect Searing Skin on Yukkuri 001 has expired.
+26	9	Bleeding Wound hits In Memorabilia Of Darksage F2s for 2134 damage.
+26	8	Regen restores 892 points of health.
+26	7	Replenishment restores 8 points of magic.
+26	6	Your spike shield hits In Memorabilia Of Darksage F2s for 16 points of fire damage.
+26	5	In Memorabilia Of Darksage F2s hits you for 293 crushing damage.
+26	4	Your spike shield hits Arc003 for 49 points of fire damage.
+26	3	Arc003 hits you for 318 slashing damage.
+26	2	Void Strike hits In Memorabilia Of Darksage F2s for 856 void damage.
+26	1	You hit In Memorabilia Of Darksage F2s for 1634 void damage.
+25	6	You evade the attack from In Memorabilia Of Darksage F2s.
+25	5	Arc003 gains the effect Searing Skin.
+25	4	Your spike shield hits Arc003 for 5 points of fire damage.
+25	3	Arc003 uses Arc003. You block the attack.
+25	2	You are healed for 5516 Health Points.
+25	1	You cast Cure.
+24	9	Bleeding Wound hits In Memorabilia Of Darksage F2s for 2134 damage.
+24	8	Regen restores 892 points of health.
+24	7	Replenishment restores 8 points of magic.
+24	6	In Memorabilia Of Darksage F2s casts Disintegrate, and hits you for 5653 holy damage
+24	5	Your spike shield hits Arc003 for 63 points of fire damage.
+24	4	Arc003 crits you for 404 slashing damage.
+24	3	In Memorabilia Of Darksage F2s gains the effect Bleeding Wound.
+24	2	Void Strike crits In Memorabilia Of Darksage F2s for 1077 void damage.
+24	1	You crit In Memorabilia Of Darksage F2s for 3486 void damage.
+23	7	In Memorabilia Of Darksage F2s gains the effect Searing Skin.

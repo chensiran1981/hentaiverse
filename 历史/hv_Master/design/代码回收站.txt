@@ -1,0 +1,78 @@
+	private IOperablePage blank = new Blank(this);
+	private AbstractPage unknown = new Unknown(this);
+	private AbstractPage[] pages = new AbstractPage[] {new Login(this),new web.page.Character(this)};
+	private List<IPageListener> listeners = new ArrayList<IPageListener>();
+	private void setPage(IOperablePage p) {
+		this.page = p;
+		for (IPageListener l : listeners) {
+			l.onPageChanged(this);
+		}
+	}
+
+	public IOperablePage getPage() {
+		return this.page;
+	}
+
+	@Override
+	public void addPageListener(IPageListener l) {
+		listeners.add(l);				
+	}
+
+	public void get(String uri) throws HvException {
+		HttpGet get = new HttpGet(uri);
+		try {
+			execute(get);
+		} catch (ClientProtocolException e) {
+			throw new HvException(uri+"链接错误。");
+		} catch (IOException e) {
+			throw new HvException(e);
+		}
+	}
+	
+	public void post(String uri, String[][] inputs) throws HvException {
+		HttpPost post = new HttpPost(uri);
+		post.setEntity(new UrlEncodedFormEntity(HttpClientTool.toNameValuePairs(inputs)));
+		try {
+			execute(post);
+		} catch (ClientProtocolException e) {
+			throw new HvException(uri+"链接错误。");
+		} catch (IOException e) {
+			throw new HvException(e);
+		}
+	}
+	private void setProductHeaders(HttpUriRequest req) {
+		Product p = browser.getProduct();
+		if (p == Product.Chrome) {
+			req.setHeader("user-agent", "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36");
+			req.setHeader("Accept-Encoding", "gzip,deflate,sdch");
+			req.setHeader("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4");
+		}
+	}
+
+	public void execute(HttpUriRequest req) throws ClientProtocolException, IOException {
+		setProductHeaders(req);
+		HttpResponse rep = getHttpClient().execute(req);
+		String html = EntityUtils.toString(rep.getEntity());
+		AbstractPage p = readPage(html,req.getURI());
+		setPage(p);		
+	}
+
+	private AbstractPage readPage(String html, URI uri) {
+		for(AbstractPage p : pages ) {
+			if (p.accept(html)) {
+				p.setContent(html,uri);
+				return p;
+			}
+		}
+		unknown.setContent(html,uri);
+		return unknown;
+	}
+
+	private HttpClient getHttpClient() {
+		if (httpClient == null) {
+			httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		}
+		return httpClient;
+	}
+
+

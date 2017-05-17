@@ -1,0 +1,28 @@
+{
+	"name":					"鼠标点到300级"
+	,"version":				"2.0"
+	,"description":			"精简版，1个JS文件。"
+	,"manifest_version":	2
+	,"icons":				{"48":"4848.png"}
+	
+	,"background":{
+		"page":"bg.html"
+	}
+	
+	,"content_scripts":[
+		{	
+			"matches":["http://*.hentaiverse.org/*"]
+			,"js":["autoclicker_v2.1.js"]
+		}
+	]
+	
+	,"web_accessible_resources":[
+		"horse.ogg"
+		,"battleCleared.mp3"
+		,"defeated.mp3"
+		
+		,"warrior.js"
+	]
+	
+	,"permissions":	["downloads"]
+}

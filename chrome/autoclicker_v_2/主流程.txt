@@ -1,0 +1,58 @@
+script:{
+	onLoad() {
+		if (BattlePage.yes()) 
+			BattlePage.onPageLoad();
+		else if (RiddlePage.yes()) {
+			RiddlePage.onPageLoad();
+		}
+	}
+}
+
+RiddlePage: {
+	yes(doc)  {......}
+	,onPageLoad() {
+		create new riddle handler,
+		and run it.
+	}
+}		
+
+BattlePage:{
+	yes(doc) {......}
+	,addons:[]
+	,onPageLoad() {
+		if (page doesn't have the mark which indicate loaded by ajax)
+			ajax();
+		load other battle addons and run them.
+		for registed addons: create and run it.
+		
+		create new battle handler and run it.
+		
+		ajax() {                                                                   
+			hook battleform's default submit procedure,                         
+			make it dispatch an custom submit event to us.                             
+			
+			onSubmit() { 
+				response to battleform's custom submit event.
+				make XMLHttpRequest, listen to its load event with onAjaxLoad.                   
+			}                                                                       
+			onAjaxLoad() {                                                          
+				if (battle page.yes(new doc)) {                                          
+					replace stuffbox and add a mark to tell the next procedure that the page was load by ajax;                                               
+					battle.onPageLoad();
+				} else if (riddle page.yes(new doc)) {  
+					replace whole page;
+					RiddlePage.onload();
+				}
+			}
+			
+		}
+	}
+}
+
+BattleHandler:{
+	run() {
+		// 
+	}
+}
+commons:{
+}	

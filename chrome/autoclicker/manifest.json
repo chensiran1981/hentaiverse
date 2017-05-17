@@ -1,0 +1,34 @@
+{
+	"name":"HentaiVerse自动打怪插件"
+	,"version":"1.0"
+	,"manifest_version":2
+	,"icons":{"48":"4848.png"}
+	
+	,"background":{
+		"page":"bg/bg.html"
+	}
+	
+	,"options_page":"option/option.html"
+	
+	,"content_scripts":[
+		{
+			"matches":["http://*.hentaiverse.org/*"],
+			"js":[
+				"util.js"
+				,"db.js"
+				,"content/hv.js"
+				,"content/fight/page.js"
+				,"content/fight/warrior.js"
+				,"content/fight/script.js"
+				,"content/riddle/page.js"
+				,"content/settings/page.js"
+				,"content/run.js"
+			]
+		}
+	]
+	,"web_accessible_resources":[
+		"content/riddle/horse.ogg"
+	]
+	
+	,"permissions":["downloads"]
+}

@@ -1,0 +1,36 @@
+{
+	"name":					"鼠标点到300级 v4"
+	,"version":				"4.0"
+	,"description":			"重构。"
+	,"manifest_version":	2
+	,"icons":				{"48":"4848.png"}
+	
+	,"background":{
+		"page":"bg.html"
+	}
+	
+	,"content_scripts":[
+		{	
+			"matches":["http://hentaiverse.org/*","http://127.0.0.1:8080/hv31/*"]
+			,"js":["ac.js","symbols.js","main.js","battle.js","riddle.js"]
+		}
+	]
+	
+	,"web_accessible_resources":[
+		"hv.js"
+		,"bpChecker.js"
+		,"bpAjax.js"
+		,"bpRobot.js"
+		,"bpOneHand.js"
+		,"bpHeal.js"
+		,"bpBuff.js"
+		,"bpLog.js"
+		,"bpStats.js"
+		,"bpStatistic.js"
+		,"soundAlert.js"
+		,"ponyPicSaver.js"
+		,"bpViewAddons.js"
+	]
+	
+	,"permissions":	["downloads"]
+}

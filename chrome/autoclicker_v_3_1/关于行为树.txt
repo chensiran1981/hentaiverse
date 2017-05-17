@@ -1,0 +1,29 @@
+关于行为树
+
+heal:[hp,mp,sp]
+
+hp: {
+	dra:70, pot:,	elixir:,	gem:,	cure:,	full_cure:
+	,exec()
+}
+
+mp: {
+	dra:,	pot:	elixir:,	gem:,	
+	,exec();
+}
+
+sp: {
+	
+}
+
+channel:{
+	
+}
+
+fight: {
+	heal:[hp,mp,sp]
+	,buff:[channel,]
+	,attack:[skill,target]
+	,exec()
+}
+

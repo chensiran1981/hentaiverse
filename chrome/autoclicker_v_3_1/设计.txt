@@ -1,0 +1,85 @@
+全局名词(及其描述)表。
+GDT
+  // 技能 type:'skill'
+  // 物品 type:'item'
+  // bosses type:'monster', subtype:'boss'
+  // 战斗程序 type:'script', subtype:'object', tag:'fighter'
+  // 程序组件 type:'script', subtype:'object', tag:'core'
+公共方法
+commons
+  :foreach(array, func)	//func返回ture则停止遍历。
+  :store
+    : load(path, object)	//若path不存在于数据库，则保存该对象到数据库。
+    : load(path)		//返回存储对象。
+    : save(path, object)
+    Dialog
+      : dialog apply(label, func)
+      dialog 
+        :setContent(div)
+        : show()
+对象类
+Gauge 血条、蓝条...
+  :value, max, percent
+Creature
+  :String name, int level, Gauge health, Gauge magic, Gauge spirit, Map[name,Effect] effects
+Spell
+  :name, mana, overcharge, cooldown
+Effect
+  :name, Gauge duration
+框架/事件
+events
+  : load()	//读取配置
+  : save()	//保存配置
+  : fire('onXXX')	// 遍历每个
+BattlePage检测战斗页面。
+BattlePage fires onBattlePageStarted, onBattlePageUpdated
+  : yes(), start()
+RiddlePage检测谜语页面。
+RiddlePage fires onWhoIsThisPony
+  : yes(), start()
+ajax将页面改造成ajax模式，这样就不用每次重新装载整个页面，从而避免视觉闪烁。
+ajax fires onAjaxDocumentArrived
+  : onBattlePageStarted()
+updater更新战场页面。
+updater fires onBattlePageUpdated
+  : onAjaxDocumentArrived
+audio在小马、胜利、失败时发出提示音。
+audio
+  : onDefeated()
+  : onChallengeCleared()
+  : onWhoIsThisPony()
+battleField会告诉你所有战斗信息。
+battleField
+  difficulty
+  Creature player
+    : Gauge overcharge, String titile, Map[name, Spell] spells
+    : check()
+  Map[name,Monster] monsters
+    : check()
+  : onBattlePageUpdated()
+robot会不断的点击。
+robot fires onWhatToDoNext, onDefeated, onChallengeCleared
+  : onBattlePageUpdated()
+mike擅长单手持盾攻击。
+mike
+  : onWhatToDoNext()
+parker也是单手持盾攻击，但比mike更有效率。
+  : onWhatToDoNext()
+mary会治疗。
+mary
+  : onWhatToDoNext()
+sara会加buff。
+sara
+  : onWhatToDoNext()
+james擅长元素攻击。
+  : onWhatToDoNext()
+------------------------
+config管理配置。
+config
+  : edit()
+  : load()
+主脚本
+config.load();
+commons.foreach(pages, function(page) {
+	return page.yes() && page.start();
+})

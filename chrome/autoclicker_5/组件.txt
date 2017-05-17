@@ -1,0 +1,61 @@
+//组件和包。
+
+
+//根组件。必须。
+ac
+
+//主组件，必须。
+ac.main
+
+//事件订阅、发布。
+ac.e
+
+//对应各个页面。
+ac.p
+
+//页面在浏览器中装载时加载该组件。
+ac.p.battle.main
+	...
+	ac.e.queue('PageLoaded');
+//将页面ajax化。
+ac.p.battle.ajax
+onPageLoaded:
+	submit.onload: ...ac.e.queue('PageLoaded');
+	ac.e.queue('PageLoaded');
+	uninstall(this);
+
+//事件细分
+ac.p.battle.e
+onPageLoaded:
+	TurnResult
+	Action
+	DialogPopup
+		GotoNextRound
+		Defeated
+		Victory
+
+//机器人可以响应。
+ac.p.battle.clicker
+依赖：ac.p.battle.ai, ac.p.battle.page
+事件：Action,DialogPopup
+示例：
+onAction
+ac.p.battle.ai.advice()
+onDialogPopup.GotoNextRound:
+
+//声音提醒
+ac.p.battle.alert
+onDialogPopup.Defeated
+onDialogPopup.Victory
+
+//AI
+ac.p.battle.ai
+//Statistics
+ac.p.battle.statistics
+
+//点击和统计组件都需要读取页面信息。
+ac.p.battle.page
+
+ac.p.pony
+
+

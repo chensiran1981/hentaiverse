@@ -1,0 +1,42 @@
+说明
+ShieldBash：25怒气
+VitalStrike:50怒气
+MercifulBlow:75怒气，流血斩杀25%怪
+
+<img id="effect_expire_3" style="opacity: 0.8;" src="/y/e/chain1.png" onmouseover="battle.set_infopane_effect('Chain 1', 'Tier 2 chain attacks are unlocked.', 0)" onmouseout="battle.clear_infopane()">
+<img src="/y/e/chain2.png" onmouseover="battle.set_infopane_effect('Chain 2', 'Tier 3 chain attacks are unlocked.', 3)" onmouseout="battle.clear_infopane()">
+
+总体逻辑：
+	（需做一个功能来计算怒气用于普攻和特技的价值）
+	考虑盾战怒气比较足，因此特殊技能用就用。对小怪使用SB和VS技能来加速进程。
+	不确定斩杀的价值，因此目前仅对boss使用斩杀。
+	使用SB之前须保证接下来能够连续使用特殊技。
+	Wiki上的公式，怒气对技能伤害有加成。因此尽量在怒气峰值时使用特殊技。
+	
+	.SB不会刷新stunned效果，不能在怪stunned<2时使用，否则可能导致无法施放后续。
+	.保险起见，当怪stunned>=4或者stunned==0时使用。
+	.SB怒气阀值>200，VS怒气阀值>150
+	
+	斩杀：
+	.目标为boss
+	.血量<=25%
+	.流血
+	
+条件和阀值：
+
+脚本：
+special() {
+	SB() || VS() || MB()
+}
+
+SB() {
+	SB && overcharge>200 && spirit_stance && (stunned ==0 || stunned > 4) 
+}
+VS() {
+	VS
+}
+MB() {
+	MB && target == boss && target < 25% && bleeding 
+}
+	
+	

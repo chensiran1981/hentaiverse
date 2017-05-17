@@ -1,0 +1,38 @@
+统计范围：
+	一场战斗	
+	难度
+	
+统计变量：
+	最高承受伤害
+	消耗药水数量
+	小怪数量
+	boss数量
+	承受伤害总量
+	治疗总量
+	过量治疗总量
+	收获的经验值
+	收获的绅士币
+
+统计数据来源：Log
+
+脚本结构：（LA为功能简写：Log Analyise）
+
+LA {
+	vars:[] 
+	prepare() {
+		变量初始化。
+		foreach(var in vars) {
+			//MaxHurt.prepare();
+			var.prepare();
+		}
+	}
+	handle() {
+		logs = 最近一个回合的Log。
+		foreach(log in logs) {
+			event = log->{round:xx,turn:xx,text:xx}
+			foreach(var)
+			//MaxHurt.process(event);
+			var.process(event);
+		}
+	}
+}

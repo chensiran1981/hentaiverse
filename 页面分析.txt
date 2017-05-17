@@ -1,0 +1,3 @@
+º¯Êý£º
+battle.set_infopane_spell(name,desc,pic,mana,overcharge,cooldown)
+battle.set_infopane_spell('Inferno', 'Unleashes an inferno of flames on all hostile targets, causing Fire damage.', '0132', 67, 0, 4)
